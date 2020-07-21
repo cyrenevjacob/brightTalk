@@ -7,23 +7,23 @@ class App extends React.Component {
 	super(props);
   	this.state = {
 	    deck: [],       // the deck of cards
-      dealer: null,   // dealer object
-      player: null,   // player object
-      gameOver: false,// game status
-      message: null   // any message that needs to be displayed
+      	    dealer: null,   // dealer object
+            player: null,   // player object
+            gameOver: false,// game status
+            message: null   // any message that needs to be displayed
 	};
   }
   // generate the deck///////////
   generateDeck() {
 	// console.log("Generate deck...");
-    const cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']; // the cards that are used
-    const suits = ['♦','♣','♥','♠'];                                // these are the special characters for the cards
-    const deck = [];                                                // initiated as an empty array
-    for (let i = 0; i < cards.length; i++) {
-      for (let j = 0; j < suits.length; j++) {
-        deck.push({number: cards[i], suit: suits[j]});
-      }
-    }
+    	const cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']; // the cards that are used
+    	const suits = ['♦','♣','♥','♠'];                                // these are the special characters for the cards
+    	const deck = [];                                                // initiated as an empty array
+    	for (let i = 0; i < cards.length; i++) {
+      		for (let j = 0; j < suits.length; j++) {
+        		deck.push({number: cards[i], suit: suits[j]});
+      		}
+    	}
 	// console.log("generatedDeck()", deck);
     return deck;
   }
@@ -36,7 +36,7 @@ class App extends React.Component {
       const { updatedDeck, player, dealer } = this.dealCards(deck);                       // deal using the new deck
 
       this.setState({
-		      deck: updatedDeck,
+	  deck: updatedDeck,
           dealer,
           player,
           gameOver: false,
@@ -48,7 +48,7 @@ class App extends React.Component {
       const { updatedDeck, player, dealer } = this.dealCards(deck);
 
       this.setState({
-		    deck: updatedDeck,
+	deck: updatedDeck,
         dealer,
         player,
         gameOver: false,
@@ -59,47 +59,47 @@ class App extends React.Component {
   /////////////end of new game///
   // deal cards//////////////////
   dealCards(deck) {
-    const playerCard1 = this.getRandomCard(deck);                     // pick a random card from the players deck
-    const dealerCard1 = this.getRandomCard(playerCard1.updatedDeck);  // pick one for the dealer
-    const playerCard2 = this.getRandomCard(dealerCard1.updatedDeck);  // player needs another one. The Dealer's is hidden  
-    const playerStartingHand = [playerCard1.randomCard, playerCard2.randomCard];
-    const dealerStartingHand = [dealerCard1.randomCard, {}];
+	    const playerCard1 = this.getRandomCard(deck);                     // pick a random card from the players deck
+	    const dealerCard1 = this.getRandomCard(playerCard1.updatedDeck);  // pick one for the dealer
+	    const playerCard2 = this.getRandomCard(dealerCard1.updatedDeck);  // player needs another one. The Dealer's is hidden  
+	    const playerStartingHand = [playerCard1.randomCard, playerCard2.randomCard];
+	    const dealerStartingHand = [dealerCard1.randomCard, {}];
+
+	    const player = {
+	      cards: playerStartingHand,
+	      count: this.getTotalOfHand(playerStartingHand)
+	    };
+	    const dealer = {
+	      cards: dealerStartingHand,
+	      count: this.getTotalOfHand(dealerStartingHand)
+	    };
     
-    const player = {
-      cards: playerStartingHand,
-      count: this.getTotalOfHand(playerStartingHand)
-    };
-    const dealer = {
-      cards: dealerStartingHand,
-      count: this.getTotalOfHand(dealerStartingHand)
-    };
-    
-    return {updatedDeck: playerCard2.updatedDeck, player, dealer};
+    	return {updatedDeck: playerCard2.updatedDeck, player, dealer};
   }
   ///////////end of deal cards///
   // others//////////////////////
   // get a random card from any deck/////
   getRandomCard(deck) {
-    const updatedDeck = deck;
-    const randomIndex = Math.floor(Math.random() * updatedDeck.length);
-    const randomCard = updatedDeck[randomIndex];
-    updatedDeck.splice(randomIndex, 1);
-    return { randomCard, updatedDeck };
+	    const updatedDeck = deck;
+	    const randomIndex = Math.floor(Math.random() * updatedDeck.length);
+	    const randomCard = updatedDeck[randomIndex];
+	    updatedDeck.splice(randomIndex, 1);
+	    return { randomCard, updatedDeck };
   }
   ////////////////////////random ends////
   // hit goes here///////////
   hit() {
     if (!this.state.gameOver) {
-	    const { randomCard, updatedDeck } = this.getRandomCard(this.state.deck);
-      const player = this.state.player;
-      player.cards.push(randomCard);
-      player.count = this.getTotalOfHand(player.cards);
+	const { randomCard, updatedDeck } = this.getRandomCard(this.state.deck);
+      	const player = this.state.player;
+      	player.cards.push(randomCard);
+      	player.count = this.getTotalOfHand(player.cards);
 
-      if (player.count > 21) {// you have gone bust! Game over!!!
+      	if (player.count > 21) {// you have gone bust! Game over!!!
           this.setState({ player, gameOver: true, message: 'You have gone bust!' });
-      } else {
+      	} else {
           this.setState({ deck: updatedDeck, player });
-      }
+      	}
     } else {
       this.setState({ message: 'Game over! Click on "New game" to start playiing again.' });
     }
@@ -157,24 +157,24 @@ class App extends React.Component {
   //////////////////end of stand///
   // the dealer's second 'secret' card////
   dealerDraw(dealer, deck) {
-    const { randomCard, updatedDeck } = this.getRandomCard(deck);
-    dealer.cards.push(randomCard);
-    dealer.count = this.getTotalOfHand(dealer.cards);
-    return { dealer, updatedDeck };
+    	const { randomCard, updatedDeck } = this.getRandomCard(deck);
+    	dealer.cards.push(randomCard);
+    	dealer.count = this.getTotalOfHand(dealer.cards);
+    	return { dealer, updatedDeck };
   }
   ////////////////////end of second card//
   // get the total of the face value////
   getTotalOfHand(cards) {
-    const rearranged = [];
-	  let cardNum = 1;
-    cards.forEach(card => {
-      // console.log("checking card..." + cardNum, card); cardNum++;
-      // special case for 'A'
-      if (card.number === 'A') {
-        rearranged.push(card);
-      } else if (card.number) {
-        rearranged.unshift(card);
-      }
+    	const rearranged = [];
+	let cardNum = 1;
+    	cards.forEach(card => {
+      	// console.log("checking card..." + cardNum, card); cardNum++;
+      	// special case for 'A'
+      	if (card.number === 'A') {
+        	rearranged.push(card);
+      	} else if (card.number) {
+        	rearranged.unshift(card);
+      	}
     });
     
     return rearranged.reduce((total, card) => {
