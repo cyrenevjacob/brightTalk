@@ -1,5 +1,5 @@
 <h2>Blackjack Game</h2>
-
+A simple React component based game.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
